@@ -1,0 +1,65 @@
+
+.spinner {
+  width: 100%;
+  height: 194px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@keyframes ldioDy2i3x3dly {
+  0% { transform: rotate(0) }
+  100% { transform: rotate(360deg) }
+}
+.ldioDy2i3x3dly div { box-sizing: border-box!important }
+.ldioDy2i3x3dly > div {
+  position: absolute;
+  width: 144px;
+  height: 144px;
+  top: 14px;
+  left: 14px;
+  border-radius: 50%;
+  border: 8px solid #000;
+  border-color: #000000 transparent #000000 transparent;
+  animation: ldioDy2i3x3dly 1s linear infinite;
+}
+@media (max-width: 768px) {
+  .ldioDy2i3x3dly > div {
+    width: 72px;
+    height: 72px;
+  }
+}
+.ldioDy2i3x3dly > div:nth-child(2) { border-color: transparent }
+.ldioDy2i3x3dly > div:nth-child(2) div {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transform: rotate(45deg);
+}
+.ldioDy2i3x3dly > div:nth-child(2) div:after { 
+  left: -8px;
+  top: 24px;
+  box-shadow: 64px 0 0 0 #000000;
+}
+.loadingioSpinnerDualRingSwd0mdxoet {
+  width: 32px;
+  height: 32px;
+  display: inline-block;
+  overflow: hidden;
+  background: none;
+}
+@media (min-width: 768px) {
+  .loadingioSpinnerDualRingSwd0mdxoet {
+    width: 70px;
+    height: 70px;
+  }
+}
+.ldioDy2i3x3dly {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform: translateZ(0) scale(0.32);
+  backface-visibility: hidden;
+  transform-origin: 0 0; /* see note above */
+}
+.ldioDy2i3x3dly div { box-sizing: content-box; }

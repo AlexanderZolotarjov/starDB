@@ -1,0 +1,68 @@
+@import "../templates.scss";
+
+.randomPlanet {
+  @extend %main-item;
+
+  &__body {
+    display: grid;
+    height: 100%;
+    grid-template-columns: 200px auto;
+    align-content: center;
+  }
+
+  &__photo {
+    position: relative;
+    width: 200px;
+  }
+  &__photo img {
+    top: 50%;
+    transform:translate(0%, -50%);
+    position: absolute;
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+    max-width: 210px;
+    border-radius: 20px;
+  }
+  &__info {
+    margin: 0 calc(clamp(20px, 3vw, 100px)) 0 calc(clamp(20px, 3vw, 100px));
+    justify-self: start;
+  }
+  &__info h1 {
+    font-size: $h1;
+  }
+  &__info p {
+    font-size: $p;
+    line-height: $plh;
+
+    margin: 5px 0;
+    padding: 5px 0;
+    border-top: 1px solid #fff;
+  }
+  @media (max-width: 768px) {
+    &__body {
+      grid-template-columns: 20vmax auto;
+    }
+    &__photo {
+      height: 20vmax;
+      width: 20vmax;
+    }
+  }
+  @media (max-width: 375px) {
+    &__body {
+      grid-template-columns: 1fr;
+      justify-content: center;
+      justify-items: center;
+    }
+    &__photo {
+      height: 15vmax;
+      width: 15vmax;
+      margin-bottom: 15px;
+    }
+    &__info {
+      margin: 0;
+      width: 100%;
+      text-align: center;
+    }
+  }
+}

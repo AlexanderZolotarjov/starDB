@@ -1,0 +1,57 @@
+@import "../templates.scss";
+@import "../bootstrapDark.scss";
+
+body {
+  color: $bs-gray-100
+}
+
+.app {
+  width: 100%;
+  font-size: 22px;
+  padding: 10px calc(clamp(10px, 10vmax, 200px));
+
+  display: grid;
+  grid-template-columns: 2fr 4fr;
+  grid-template-rows: calc(max(50px, 4vmax)) minmax(230px, auto) auto auto;
+  grid-template-areas: 
+    "header header"
+    "randomPlanet randomPlanet"
+    "itemList personDetails"
+    "itemList .";
+  gap: calc(min(30px, 5vmin));
+
+  @media (max-width: 1024px) {
+    padding: 10px calc(clamp(20px, 3vmax, 30px));
+  }
+  
+  @media (max-width: 768px) {
+    padding: 10px calc(clamp(10px, 3vmax, 16px));
+
+    grid-template-columns: 1fr;
+    grid-template-rows: calc(max(50px, 4vmax))auto auto auto;
+    grid-template-areas: 
+      "header"
+      "randomPlanet"
+      "itemList"
+      "personDetails";
+    gap: calc(max(8px, 2.5vmin));
+  }
+
+  @media (max-width: 512px) {
+    padding: 6px calc(clamp(5px, 2.2vmax, 10px));
+    gap: calc(max(6px, 2.4vmin));
+  }
+  
+  .header {
+    grid-area: header;
+  }
+  .randomPlanet {
+    grid-area: randomPlanet;
+  }
+  .itemList {
+    grid-area: itemList;
+  }
+  .personDetails {
+    grid-area: personDetails;
+  }
+}

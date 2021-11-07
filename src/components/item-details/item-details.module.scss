@@ -1,0 +1,144 @@
+@import "../templates.scss";
+
+.personDetails {
+  @extend %main-item;
+  &__body {
+    display: grid;
+    grid-template-columns: calc(120px * 1.5) auto;
+  }
+  &__photo {
+    & img {
+      top: 0;
+      position: absolute;
+      width: 100%;
+      border-radius: 20px;
+    }
+    &_people {
+      position: relative;
+      height: calc(165px * 1.5);
+      width: calc(120px * 1.5);
+    }
+    &_planets {
+      position: relative;
+      height: calc(120px * 1.5);
+      width: calc(120px * 1.5);
+    }
+    &_starships {
+      position: relative;
+      height: calc(120px * 1.5);
+      width: calc(120px * 1.5);
+      & img {
+        object-fit: cover;
+        height: 100%;
+      }
+    }
+  }
+  &__info {
+    margin: 0 calc(clamp(20px, 3vw, 100px)) 0 calc(clamp(20px, 3vw, 100px));
+    justify-self: start;
+  }
+  &__info h1 {
+    font-size: $h1;
+  }
+  &__info p {
+    font-size: $p;
+    line-height: $plh;
+
+    margin: 5px 0;
+    padding: 5px 0;
+    border-top: 1px solid #fff;
+  }
+  @media (max-width: 900px) {
+    &__body {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto auto;
+      gap: 20px;
+    }
+    &__photo {
+      &_people {
+        justify-self: center;
+        width: 14vmax;
+        height: 19vmax;
+      }
+      &_planets {
+        justify-self: center;
+        width: 14vmax;
+        height: 19vmax;
+      }
+      &_starships {
+        justify-self: center;
+        width: 19vmax;
+        height: 19vmax;
+      }
+      & img {
+
+      }
+    }
+    &__info {
+      justify-self: center;
+      text-align: center;
+    }
+  }
+  @media (max-width: 768px) {
+    &__body {
+      grid-template-columns: 18vmax auto;
+      gap: 0;
+    }
+    &__photo {
+      &_people {
+        justify-self: center;
+        height: 25vmax;
+        width: 18vmax;
+      }
+      &_planets {
+        justify-self: center;
+        height: 18vmax;
+        width: 18vmax;
+      }
+      &_starships {
+        justify-self: center;
+        height: 18vmax;
+        width: 18vmax;
+      }
+      & img {
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+    &__info {
+      justify-self: start;
+      text-align: left;
+    }
+  }
+  @media (max-width: 425px) {
+    &__body {
+      grid-template-columns: 1fr;
+      justify-content: center;
+      justify-items: center;
+    }
+    &__photo {
+      margin-bottom: 15px;
+      &_people {
+        height: 20vmax;
+        width: 15vmax;
+      }
+      &_planets {
+        height: 20vmax;
+        width: 20vmax;
+
+      }
+      &_starships {
+        height: 20vmax;
+        width: 20vmax;
+      }
+      & img {
+
+      }
+    }
+    &__info {
+      margin: 0;
+      width: 100%;
+      text-align: center;
+    }
+  }
+}
