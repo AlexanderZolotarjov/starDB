@@ -2,8 +2,6 @@ import React from 'react';
 import cn from 'classnames';
 // import { motion, AnimatePresence } from "framer-motion"
 
-import SwapiService from '../../services/swapi-services';
-
 import ErrorMessage from '../error-message/errorMessage';
 import Spinner from '../spinner';
 
@@ -11,8 +9,6 @@ import Spinner from '../spinner';
 import styles from './item-list.module.scss';
 
 export default class ItemList extends React.Component {
-
-  swapiService = new SwapiService();
 
   state = {
     type: this.props.type || 'people',
@@ -50,25 +46,10 @@ export default class ItemList extends React.Component {
   }
 
   updateList = (type) => {
-    switch (type) {
-      case 'people':
-        this.swapiService
-          .getAllPeople()
-          .then(this.onListLoaded)
-          .catch(this.onError);
-        break;
-      case 'planets':
-        this.swapiService
-          .getAllPlanets()
-          .then(this.onListLoaded)
-          .catch(this.onError);
-        break;
-      default:
-        this.swapiService
-          .getAllStarships()
-          .then(this.onListLoaded)
-          .catch(this.onError);
-    }
+    this.props
+      .getData()
+      .then(this.onListLoaded)
+      .catch(this.onError);
   }
 
   toggleCurrentStatus = () => {
@@ -101,43 +82,26 @@ export default class ItemList extends React.Component {
     }
   }
 
-  getHeight = (element) => {
-    if (element) {
-      return element.clientHeight + 'px';
-    } else {
-      return 270 + 'px'
-    }
-  }
-
-  getCorrectId = (id) => {
-    if (id === 1 && this.props.type === 'starships') {
-      return 2
-    } else {
-      return id;
-    }
-  }
-
   madeFinallyList(list) {
-    const currentId = this.getCorrectId(this.props.id);
+    const currentId = this.props.id;
     if (this.state.currentStatus) {
       return (
         list.map((item) => {
           const { id, name } = item;
-          const correctId = this.getCorrectId(id);
 
           const shortName = this.getShortString(name)
           return (
             <li
-              key={correctId}
+              key={id}
               className={styles.itemList__item}
             >
               <div
                 id={id}
                 className={cn(
                   styles.itemList__link, {
-                  [styles.itemList__link_first]: correctId === list[0].id,
-                  [styles.itemList__link_last]: correctId === list[list.length - 1].id,
-                  [styles.itemList__link_active]: +correctId === +currentId
+                  [styles.itemList__link_first]: id === list[0].id,
+                  [styles.itemList__link_last]: id === list[list.length - 1].id,
+                  [styles.itemList__link_active]: +id === currentId
                 }
                 )}
                 onClick={(target) => {
@@ -147,7 +111,7 @@ export default class ItemList extends React.Component {
                 }
               >
                 {`${shortName}`}
-                {correctId === list[0].id ?
+                {id === list[0].id ?
                   <span
                     className={styles.itemList__link_open}
                   ></span> :
@@ -185,24 +149,23 @@ export default class ItemList extends React.Component {
   }
 
   madeBigFinallyList(list) {
-    const currentId = this.getCorrectId(this.props.id);
     return (
       list.map((item) => {
         const { id, name } = item
-        const correctId = this.getCorrectId(id);
+        const currentId = this.props.id;
         const shortName = this.getShortString(name)
         return (
           <li
-            key={correctId}
+            key={id}
             className={styles.itemList__item}
           >
             <div
-              id={correctId}
+              id={id}
               className={cn(
                 styles.itemList__link, {
-                [styles.itemList__link_first]: correctId === list[0].id,
-                [styles.itemList__link_last]: correctId === list[list.length - 1].id,
-                [styles.itemList__link_active]: +correctId === +currentId
+                [styles.itemList__link_first]: id === list[0].id,
+                [styles.itemList__link_last]: id === list[list.length - 1].id,
+                [styles.itemList__link_active]: +id === currentId
               }
               )}
               onClick={this.props.changeCurrentItem}
@@ -233,10 +196,6 @@ export default class ItemList extends React.Component {
 
 
 
-    const {
-      className
-    } = this.props
-
     let height = this.getHeight(document.getElementById('itemListContainer'))
 
     const hasData = !loading && !error;
@@ -244,15 +203,12 @@ export default class ItemList extends React.Component {
     const errorMessage = error ? <ErrorMessage /> : null
     const spinner = loading ? <Spinner height={height} /> : null;
     const bigContent = hasData ? this.madeBigFinallyList(list) : null;
-
     const content = hasData ? this.madeFinallyList(list) : null;
-    // const contentFull = hasData ? this.madeFinallyList(list) : null;
-    // const contentNotComplete = hasData ? this.madeFinallyList(list) : null;
+
 
     return (
       <div
         id="itemListContainer"
-        className={className}
       >
         <div
           className={cn(

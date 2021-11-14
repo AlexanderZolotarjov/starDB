@@ -1,7 +1,6 @@
 @import "../templates.scss";
 
 .itemList {
-  @extend %main-item;
   display: grid;
   padding: 0;
   &__list {

@@ -6,6 +6,12 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  &_main {
+    height: 100vh;
+  }
+  &_list {
+    padding: 20px;
+  }
   & img {
     width: 100px;
     padding-bottom: 10px;

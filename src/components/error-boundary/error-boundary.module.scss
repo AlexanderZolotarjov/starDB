@@ -1,0 +1,8 @@
+@import "../templates.scss";
+
+.errorBoundary {
+    @extend %main-item;
+    &_list {
+    padding: 0;
+    }
+}

@@ -1,8 +1,6 @@
 @import "../templates.scss";
 
 .randomPlanet {
-  @extend %main-item;
-
   &__body {
     display: grid;
     height: 100%;

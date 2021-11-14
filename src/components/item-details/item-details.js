@@ -2,13 +2,13 @@ import React from 'react';
 import cn from 'classnames';
 
 import styles from './item-details.module.scss';
-import SwapiService from '../../services/swapi-services';
+// import SwapiService from '../../services/swapi-services';
 import ErrorMessage from '../error-message';
 import Spinner from '../spinner';
 
 export default class ItemDetails extends React.Component {
 
-  swapiService = new SwapiService();
+  // swapiService = new SwapiService();
 
   state = {
     personData: {},
@@ -53,29 +53,9 @@ export default class ItemDetails extends React.Component {
   }
 
   updateItem = (id, type) => {
-    switch (type) {
-      case 'people':
-        this.swapiService
-          .getPerson(id)
-          .then(this.onPersonLoaded)
-          .catch(this.onError);
-        break;
-      case 'planets':
-        this.swapiService
-          .getPlanet(id)
-          .then(this.onPersonLoaded)
-          .catch(this.onError);
-        break;
-      default:
-        if (id === 1) {
-          id = 2
-        }
-        this.swapiService
-          .getStarship(id)
-          .then(this.onPersonLoaded)
-          .catch(this.onError);
-        break;
-    }
+    this.props.getData()
+      .then(this.onPersonLoaded)
+      .catch(this.onError);
   }
 
   getHeight = (element) => {
@@ -87,9 +67,7 @@ export default class ItemDetails extends React.Component {
   }
 
   render() {
-
     const {
-      className,
       type
     } = this.props;
 
@@ -98,6 +76,7 @@ export default class ItemDetails extends React.Component {
       loading,
       error
     } = this.state;
+
 
     const height = this.getHeight(document.getElementById('itemDetailsContainer'))
 
@@ -111,8 +90,8 @@ export default class ItemDetails extends React.Component {
       <div
         id="itemDetailsContainer"
         className={cn(
-          className,
-          styles.personDetails
+          styles.personDetails,
+          styles.personDetails_list
         )}
       >
         {errorMessage}

@@ -1,7 +1,6 @@
 @import "../templates.scss";
 
 .personDetails {
-  @extend %main-item;
   &__body {
     display: grid;
     grid-template-columns: calc(120px * 1.5) auto;

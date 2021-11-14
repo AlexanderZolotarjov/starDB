@@ -1,15 +1,11 @@
 import React from 'react';
-import cn from 'classnames';
 
-import SwapiService from '../../services/swapi-services';
 import Spinner from '../spinner';
 import ErrorMessage from '../error-message/errorMessage';
 
 import styles from './random-planet.module.scss';
 
 export default class RandomPlanet extends React.Component {
-
-  swapiService = new SwapiService();
 
   state = {
     planet: {},
@@ -19,10 +15,10 @@ export default class RandomPlanet extends React.Component {
 
   componentDidMount() {
     this.updatePlanet();
-    this.intervel = setInterval(this.updatePlanet, 5000);
+    this.interval = setInterval(this.updatePlanet, 5000);
   }
-  componentWillUnmoun() {
-    clearInterval(this.intervel);
+  componentWillUnmount() {
+    clearInterval(this.interval);
   }
 
   onPlanetLoaded = (planet) => {
@@ -41,9 +37,7 @@ export default class RandomPlanet extends React.Component {
   }
 
   updatePlanet = () => {
-    const id = Math.floor(Math.random() * 18 + 2);
-    this.swapiService
-      .getPlanet(id)
+    this.props.getData(true)
       .then(this.onPlanetLoaded)
       .catch(this.onError);
   }
@@ -52,10 +46,6 @@ export default class RandomPlanet extends React.Component {
 
     const { planet, loading, error } = this.state;
 
-    const {
-      className
-    } = this.props;
-
     const hasData = !loading && !error;
 
     const errorMessage = error ? <ErrorMessage /> : null
@@ -63,12 +53,7 @@ export default class RandomPlanet extends React.Component {
     const content = hasData ? <PlanetView planet={planet} /> : null
 
     return (
-      <div
-        className={cn(
-          className,
-          styles.randomPlanet
-        )}
-      >
+      <div className={styles.randomPlanet}>
         {errorMessage}
         {spinner}
         {content}
@@ -84,8 +69,7 @@ const PlanetView = ({
     population,
     rotationPeriod,
     diameter
-  },
-  test
+  }
 }) => {
   return (
     <div className={styles.randomPlanet__body}>
