@@ -15,7 +15,7 @@ export default class ItemList extends React.Component {
     list: [],
     loading: true,
     error: false,
-    currentStatus: false
+    currentStatus: true
   };
 
   componentDidMount() {
@@ -58,22 +58,6 @@ export default class ItemList extends React.Component {
     })
   }
 
-  getProperty = (item) => {
-    if (item.birthYear) {
-      return (
-        `${item.birthYear}`
-      )
-    } else if (item.diameter) {
-      return (
-        `${item.diameter} km`
-      )
-    } else {
-      return (
-        `${item.length} m`
-      )
-    }
-  }
-
   getShortString = (str) => {
     if (str.length > 20) {
       return str.substr(0, 20) + '.';
@@ -82,70 +66,60 @@ export default class ItemList extends React.Component {
     }
   }
 
-  madeFinallyList(list) {
-    const currentId = this.props.id;
-    if (this.state.currentStatus) {
+  getSpanContent = (id, currentId, list) => {
+    if (+id === +currentId && this.state.currentStatus === false) {
       return (
-        list.map((item) => {
-          const { id, name } = item;
-
-          const shortName = this.getShortString(name)
-          return (
-            <li
-              key={id}
-              className={styles.itemList__item}
-            >
-              <div
-                id={id}
-                className={cn(
-                  styles.itemList__link, {
-                  [styles.itemList__link_first]: id === list[0].id,
-                  [styles.itemList__link_last]: id === list[list.length - 1].id,
-                  [styles.itemList__link_active]: +id === currentId
-                }
-                )}
-                onClick={(target) => {
-                  this.props.changeCurrentItem(target);
-                  this.toggleCurrentStatus()
-                }
-                }
-              >
-                {`${shortName}`}
-                {id === list[0].id ?
-                  <span
-                    className={styles.itemList__link_open}
-                  ></span> :
-                  null}
-              </div>
-            </li>
-          )
-        })
+        <span
+          className={styles.itemList__subLink_close}
+        ></span>
       )
-    } else {
-      const item = list.find(element => +element.id === currentId) || list[0];
-      const { id, name } = item;
-      const shortName = this.getShortString(name);
+    } else if (+id === +list[0].id && this.state.currentStatus === true) {
       return (
-        <li
-          key={id}
-          className={styles.itemList__item}
-        >
-          <div
-            id={id}
-            className={cn(
-              styles.itemList__link,
-              styles.itemList__link_short
-            )}
-            onClick={this.toggleCurrentStatus}
-          >
-            {`${shortName}`}
-            <span
-              className={styles.itemList__link_close}
-            ></span>
-          </div>
-        </li>
+        <span
+          className={styles.itemList__subLink_open}
+        ></span>
       )
     }
+  }
+
+  madeFinallyList(list) {
+    const currentId = this.props.id;
+    return (
+      list.map((item) => {
+        const { id, name } = item;
+
+        const shortName = this.getShortString(name);
+        const spanContent = this.getSpanContent(id, currentId, list);
+
+        return (
+          <li
+            key={id}
+            className={styles.itemList__item}
+          >
+            <div
+              id={id}
+              className={cn(
+                styles.itemList__link, {
+                [styles.itemList__link_first]: +id === +list[0].id,
+                [styles.itemList__link_last]: +id === +list[list.length - 1].id,
+                [styles.itemList__link_active]: +id === +currentId,
+                [styles.itemList__link_one]: +id === +currentId && this.state.currentStatus === false,
+                [styles.itemList__link_hide]: +id !== +currentId && this.state.currentStatus === false
+              }
+              )}
+              onClick={(target) => {
+                this.props.changeCurrentItem(target);
+                this.toggleCurrentStatus()
+              }
+              }
+            >
+              {`${shortName}`}
+              {spanContent}
+            </div>
+          </li>
+        )
+      })
+    )
   }
 
   madeBigFinallyList(list) {
@@ -194,8 +168,6 @@ export default class ItemList extends React.Component {
       error
     } = this.state;
 
-
-
     let height = this.getHeight(document.getElementById('itemListContainer'))
 
     const hasData = !loading && !error;
@@ -205,33 +177,39 @@ export default class ItemList extends React.Component {
     const bigContent = hasData ? this.madeBigFinallyList(list) : null;
     const content = hasData ? this.madeFinallyList(list) : null;
 
-
     return (
       <div
         id="itemListContainer"
       >
-        <div
-          className={cn(
-            styles.itemList,
-            styles.itemList_small
-          )}>
-          <ul className={styles.itemList__list}>
-            {errorMessage}
-            {spinner}
-            {content}
-          </ul>
-        </div>
-        <div className={cn(
-          styles.itemList,
-          styles.itemList_big
-        )}>
-          <ul className={styles.itemList__list}>
-            {errorMessage}
-            {spinner}
-            {bigContent}
-          </ul>
-        </div>
+        <SubItemList
+          type="small"
+          errorMessage={errorMessage} spinner={spinner}
+          content={content} bigContent={bigContent}
+        />
+        <SubItemList
+          type="big"
+          errorMessage={errorMessage} spinner={spinner}
+          content={content} bigContent={bigContent}
+        />
       </div >
     )
   }
+}
+
+const SubItemList = ({ type, errorMessage, spinner, content, bigContent }) => {
+  return (
+    <div
+      className={cn(
+        styles.itemList, {
+        [styles.itemList_small]: type === 'small',
+        [styles.itemList_big]: type === 'big'
+      }
+      )}>
+      <ul className={styles.itemList__list}>
+        {errorMessage}
+        {spinner}
+        {type === 'small' ? content : bigContent}
+      </ul>
+    </div>
+  )
 }

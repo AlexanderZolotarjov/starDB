@@ -10,12 +10,11 @@ body {
 
   display: grid;
   grid-template-columns: 2fr 4fr;
-  grid-template-rows: calc(max(50px, 4vmax)) minmax(230px, auto) auto auto;
+  grid-template-rows: calc(max(50px, 4vmax)) minmax(230px, auto) auto;
   grid-template-areas: 
     "header header"
     "randomPlanet randomPlanet"
-    "itemList personDetails"
-    "itemList .";
+    "itemList personDetails";
   gap: calc(min(30px, 5vmin));
 
   @media (max-width: 1024px) {
@@ -48,8 +47,10 @@ body {
   }
   .itemList {
     grid-area: itemList;
+    align-self: flex-start;
   }
   .personDetails {
     grid-area: personDetails;
+    align-self: flex-start;
   }
 }

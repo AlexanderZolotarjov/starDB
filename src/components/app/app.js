@@ -37,7 +37,7 @@ export default class App extends React.Component {
       default:
         return this.swapiService.getStarship(currentId);
     }
-  }
+  } // Данные одного элемента
 
   getDataList = (type) => {
     const currentType = type ? type : this.state.type;
@@ -49,7 +49,7 @@ export default class App extends React.Component {
       default:
         return this.swapiService.getAllStarships();
     }
-  }
+  } // Данные списка элементов
 
   changeCurrentItem = (item) => {
     this.setState({
